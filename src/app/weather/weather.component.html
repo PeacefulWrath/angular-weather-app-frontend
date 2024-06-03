@@ -1,0 +1,37 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<div>
+    <div class="d-flex justify-content-around mt-2">
+        <h1>Weather Page</h1>
+        <select class="w-25" [(ngModel)]="selectedCity" (change)="fetchSelectedOptionWeather()">
+            @for(city of cities; track city){
+            <option>{{city}}</option>
+            }
+        </select>
+
+        <mat-icon class="accountBox" (click)="showModal()">account_box</mat-icon>
+    </div>
+    <canvas class="mt-5" id="canvas">{{chart}}</canvas>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">User Info</h4>
+            </div>
+            <div class="modal-body">
+                <p>{{userName}}</p>
+                <p>{{userEmail}}</p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="handleLogOut()">
+                    Log Out
+                </button>
+                <button type="button" class="btn btn-danger" (click)="closeModal()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
