@@ -2,12 +2,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { WeatherComponent } from './weather/weather.component';
 import { NgModule } from '@angular/core';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 
 
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
+    {
+        path: 'register',
+        component: RegisterComponent,
+    },
     {
         path: 'login',
         component: LoginComponent,
@@ -19,6 +24,6 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -10,7 +10,13 @@
 
         <mat-icon class="accountBox" (click)="showModal()">account_box</mat-icon>
     </div>
-    <canvas class="mt-5" id="canvas">{{chart}}</canvas>
+    <div class="d-flex justify-content-around mt-5">
+    <canvas  class="w-50 h-50" id="temp-canvas">{{tempChart}}</canvas>
+    <canvas  class="h-25 humidity_chart_width"  id="humidity-canvas">{{humidityChart}}</canvas>
+    </div>
+    <div class="d-flex justify-content-center mt-5">
+    <canvas  class="w-50 h-50" id="rain-canvas">{{rainChart}}</canvas>
+</div>
 </div>
 
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">

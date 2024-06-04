@@ -5,18 +5,19 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, FormsModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.css'
 })
 
-export class LoginComponent {
-  loginForm: FormGroup = new FormGroup({
+export class RegisterComponent {
+  registerForm: FormGroup = new FormGroup({
     name: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),
+    city: new FormControl(''),
   });
 
   selectedCity = 'New York';
@@ -25,7 +26,7 @@ export class LoginComponent {
 
   submitted = false
 
-  token:null|string=null
+  token: null | string = null
 
 
   constructor(private router: Router, private formBuilder: FormBuilder, private http: HttpClient) { }
@@ -57,57 +58,48 @@ export class LoginComponent {
       );
     }
 
-    this.loginForm = this.formBuilder.group(
+    this.registerForm = this.formBuilder.group(
       {
-        // name: ['', Validators.required],
+        name: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
-        password:['',[Validators.required, Validators.minLength(6)]],
-        // city: ['', Validators.required],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        city: ['', Validators.required],
       })
   }
 
   get f(): { [key: string]: AbstractControl } {
-    return this.loginForm.controls;
+    return this.registerForm.controls;
   }
 
-  goToRegister(){
-    this.router.navigate(['/register'])
+  goToLogin(){
+    this.router.navigate(['/login']);
   }
 
   onSubmit() {
 
     this.submitted = true;
 
-    if (this.loginForm.invalid) {
-      alert("login failed")
+    if (this.registerForm.invalid) {
+      alert("registration failed")
       return;
     }
 
     // console.log("city,",this.f['city'].value)
     const userData = {
-      // name: this.f['name'].value,
+      name: this.f['name'].value,
       email: this.f['email'].value,
       password: this.f['password'].value,
-      // city: this.f['city'].value
+      city: this.f['city'].value
     }
 
-    this.http.post('http://localhost:5000/auth/user/login', userData).subscribe(
+    this.http.post('http://localhost:5000/auth/user/register', userData).subscribe(
       (response: any) => {
-        localStorage.setItem('token', response.token);
-        alert("login successfull !!!")
-        console.log("response login", response)
-        this.router.navigate(['/weather'], {
-          state: {
-            name: response.user.name,
-            email: response.user.email,
-            city: response.user.city
-
-          }
-        });
+        alert("registration successfull !!!")
+        this.router.navigate(['/login']);
       },
       (err) => {
-        alert(err.error.message);
-        
+        // console.error(err);
+        alert(err.error.message)
       }
     );
   }
