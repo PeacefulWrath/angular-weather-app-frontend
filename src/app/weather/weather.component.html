@@ -1,8 +1,10 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <div>
     <div class="d-flex justify-content-around mt-2">
         <h1>Weather Page</h1>
-        <select class="w-25" [(ngModel)]="selectedCity" (change)="fetchSelectedOptionWeather()">
+        <select class="w-25" style="border:2px solid #fbfbfb" [(ngModel)]="selectedCity"
+            (change)="fetchSelectedOptionWeather()">
             @for(city of cities; track city){
             <option>{{city}}</option>
             }
@@ -11,12 +13,12 @@
         <mat-icon class="accountBox" (click)="showModal()">account_box</mat-icon>
     </div>
     <div class="d-flex justify-content-around mt-5">
-    <canvas  class="w-50 h-50" id="temp-canvas">{{tempChart}}</canvas>
-    <canvas  class="h-25 humidity_chart_width"  id="humidity-canvas">{{humidityChart}}</canvas>
+        <canvas class="w-50 h-50" id="temp-canvas">{{tempChart}}</canvas>
+        <canvas class="h-25 humidity_chart_width" id="humidity-canvas">{{humidityChart}}</canvas>
     </div>
     <div class="d-flex justify-content-center mt-5">
-    <canvas  class="w-50 h-50" id="rain-canvas">{{rainChart}}</canvas>
-</div>
+        <canvas class="w-50 h-50" id="rain-canvas">{{rainChart}}</canvas>
+    </div>
 </div>
 
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
@@ -26,9 +28,10 @@
                 <h4 class="modal-title">User Info</h4>
             </div>
             <div class="modal-body">
-                <p>{{userName}}</p>
-                <p>{{userEmail}}</p>
-
+                <p>user name: {{userName|async}}</p>
+                <p>user email: {{userEmail|async}}</p>
+                <p>user city: {{userCity|async}}</p>
+                <p>current selected city: {{userSelectedCity|async}}</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" (click)="handleLogOut()">

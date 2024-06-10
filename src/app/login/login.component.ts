@@ -1,8 +1,11 @@
+import { AppState } from './../states/app.state';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators, ReactiveFormsModule, AbstractControl, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import { updateuserdetails } from '../states/user/user.actions';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +31,7 @@ export class LoginComponent {
   token:null|string=null
 
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private http: HttpClient) { }
+  constructor(private router: Router, private formBuilder: FormBuilder, private http: HttpClient,private store:Store<AppState>) { }
 
   ngOnInit(): void {
 
@@ -74,6 +77,14 @@ export class LoginComponent {
     this.router.navigate(['/register'])
   }
 
+
+  update(paraName:any,paraCity:any,paraEmail:any){
+    this.store.dispatch(updateuserdetails({name:paraName,city:paraCity,email:paraEmail}))
+    }
+
+
+
+
   onSubmit() {
 
     this.submitted = true;
@@ -96,14 +107,17 @@ export class LoginComponent {
         localStorage.setItem('token', response.token);
         alert("login successfull !!!")
         console.log("response login", response)
-        this.router.navigate(['/weather'], {
-          state: {
-            name: response.user.name,
-            email: response.user.email,
-            city: response.user.city
+        this.update(response.user.name,response.user.city,response.user.email)
+        this.router.navigate(['/weather']
+          // , {
+          // state: {
+          //   name: response.user.name,
+          //   email: response.user.email,
+          //   city: response.user.city
 
-          }
-        });
+          // }
+        // }
+      );
       },
       (err) => {
         alert(err.error.message);

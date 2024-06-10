@@ -1,17 +1,24 @@
+import { AppState } from './../states/app.state';
 import { Component, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Chart, registerables } from 'chart.js';
 import axios from "axios";
-import { Location } from '@angular/common';
+import { AsyncPipe, Location } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon'
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { selectCity, selectEmail, selectName } from '../states/user/user.selector';
+import { updateuserdetails } from '../states/user/user.actions';
+import { selectCurrentCity } from '../states/currentCity/currentCity.selector';
+import { currentcity } from '../states/currentCity/currentCity.actions';
 
 @Component({
   selector: 'app-weather',
   standalone: true,
-  imports: [FormsModule, MatIconModule, CommonModule],
+  imports: [FormsModule, MatIconModule, CommonModule, AsyncPipe],
   templateUrl: './weather.component.html',
   styleUrl: './weather.component.css'
 })
@@ -22,9 +29,14 @@ export class WeatherComponent {
   rainChart: any = []
   API_KEY = "3245493517b371c063157e73b527198e"
   stateValue: any = {}
-  userName: string = ""
-  userEmail: string = ""
-  selectedCity = '';
+  userName: Observable<string>;
+  userEmail: Observable<string>;
+  userCity: Observable<string>;
+  userSelectedCity: Observable<string>;
+
+  selectedCity: any
+
+
   cities = ['New York', 'London', 'Paris', 'Tokyo', 'Mumbai', 'Kolkata'];
 
   temperatureDetails: any[] = [
@@ -135,11 +147,40 @@ export class WeatherComponent {
   displayStyle = "none";
   token: null | string = null
 
-  constructor(private location: Location, private router: Router, private http: HttpClient) {
-    Chart.register(...registerables);
+  constructor(private location: Location, private router: Router, private http: HttpClient, private store: Store<AppState>) {
+    this.userCity = of()
+    this.userEmail = of()
+    this.userName = of()
+    this.userSelectedCity = of()
   }
 
   ngOnInit() {
+    // console.log("999",this.userEmail?._Store.actionsObserver._value.email)
+    // this.token = localStorage.getItem("token")
+
+    // if (this.token) {
+    //   const tokendata = { jwt_token: this.token }
+    //   this.http.post('http://localhost:5000/auth/user/verify-token', tokendata).subscribe(
+    //     (response: any) => {
+    //       // console.log("ddd",response)
+    //       if (response.success === "no" && response.message !== "token verified") {
+    //         this.router.navigate(['/login'])
+    //       }
+    //     },
+    //     (error) => {
+    //       console.error(error);
+    //     }
+    //   );
+    // } else {
+    //   this.router.navigate(['/login'])
+    // }
+
+    // this.stateValue = this.location.getState()
+    // this.selectedCity = this.stateValue.city
+    // this.userEmail = this.stateValue.email
+    // this.userName = this.stateValue.name
+    // this.userName=this.store.select(selectName)
+
 
     this.token = localStorage.getItem("token")
 
@@ -150,6 +191,23 @@ export class WeatherComponent {
           // console.log("ddd",response)
           if (response.success === "no" && response.message !== "token verified") {
             this.router.navigate(['/login'])
+          } else {
+
+            Chart.register(...registerables);
+            this.userName = this.store.select(selectName)
+            this.userEmail = this.store.select(selectEmail)
+            this.userCity = this.store.select(selectCity)
+            this.userSelectedCity = this.store.select(selectCurrentCity)
+            this.userCity.subscribe((res: any) => {
+              if(res){
+                this.selectedCity = res;
+                // console.log("999",this.selectedCity)
+              }
+            })
+            
+
+           
+            this.update(response.userAuthData.name, response.userAuthData.city, response.userAuthData.email)
           }
         },
         (error) => {
@@ -160,10 +218,16 @@ export class WeatherComponent {
       this.router.navigate(['/login'])
     }
 
-    this.stateValue = this.location.getState()
-    this.selectedCity = this.stateValue.city
-    this.userEmail = this.stateValue.email
-    this.userName = this.stateValue.name
+
+
+  }
+
+  
+
+  update(paraName: any, paraCity: any, paraEmail: any) {
+    this.store.dispatch(updateuserdetails({ name: paraName, city: paraCity, email: paraEmail }))
+    this.store.dispatch(currentcity({ value: paraCity }))
+    // this.selectedCity=paraCity
     this.fetchWeather()
   }
 
@@ -248,7 +312,7 @@ export class WeatherComponent {
   }
 
   showRainChart() {
-    console.log("tyy",this.rainDetails)
+    // console.log("tyy",this.rainDetails)
     this.rainChart = new Chart('rain-canvas', {
       type: 'line',
       data: {
@@ -301,9 +365,9 @@ export class WeatherComponent {
     if (this.rainChart) {
       this.rainChart.destroy()
     }
+
+    this.store.dispatch(currentcity({ value: this.selectedCity }))
     this.fetchWeather()
-
-
   }
 
   getExactTime(date: any) {
@@ -326,6 +390,7 @@ export class WeatherComponent {
   }
 
   async fetchWeather() {
+    console.log("oo",this.selectedCity)
     const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${this.selectedCity}&appid=${this.API_KEY}&units=imperial`);
 
 

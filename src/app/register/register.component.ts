@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators, ReactiveFormsModule, AbstractControl, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-
+import "./register.component.css"
 @Component({
   selector: 'app-register',
   standalone: true,

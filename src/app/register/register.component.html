@@ -1,80 +1,80 @@
-<div class="container d-flex justify-content-center">
-    <div class="row">
-  
-      <h1 class="text-center">Register Page</h1>
-      <div class="mt-5">
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-group" autocomplete="false">
+<div class="d-flex justify-content-center align-items-center vh-100 bg-black">
+  <div class="register__container">
 
-          <div class="form-group">
-            <label>Name:</label>
-            <input formControlName="name" type="text" class="form-control" />
-  
-            @if (submitted && f['name'].errors) {
-            <div class="text-danger">
-              @if (f['name'].errors['required']) {
-              <div>*name is required</div>
-              }
-            </div>
-            }
-  
-          </div>
-  
-          <div class="form-group">
-            <label>Email:</label>
-            <input formControlName="email" type="email" class="form-control" />
-  
-            @if (submitted && f['email'].errors) {
-            <div class="text-danger">
-              @if (f['email'].errors['required']) {
-              <div>*email is required</div>
-              }
-              @if (f['email'].errors['email']) {
-              <div>*email must be valid</div>
-              }
-            </div>
-            }
-  
-          </div>
-  
-          <div class="form-group">
-            <label>Password:</label>
-            <input formControlName="password" type="text" class="form-control" />
-  
-            @if (submitted && f['password'].errors) {
-            <div class="text-danger">
-              @if (f['password'].errors['required']) {
-              <div>*password is required</div>
-              }
-              @if (f['password'].errors['minlength']) {
-              <div>*password must have length 6</div>
-              }
-            </div>
-            }
-  
-          </div>
-  
-          <div class="form-group">
-            <label>Select Your City:</label>
-            <select class="form-control" [(ngModel)]="selectedCity" formControlName="city">
-              @for(city of cities; track city){
-  
-              <option>{{city}}</option>
-  
-              }
-  
-            </select>
-          </div>
-  
-          <div class="text-center mt-4">
-            <button type="submit" class="btn btn-primary">Register</button>
-          </div>
+    <h1 class="text-center text-white">Register Page</h1>
+    <div class="mt-5">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-group" autocomplete="false">
 
-        </form>
-        <div class="d-flex justify-content-center mt-5">
-            <p>If you already registered then you can <span class="fw-bold text-info" style="cursor: pointer;" (click)="goToLogin()">login</span></p>
+        <div class="form-group ps-5 pe-5">
+          <label class="text-white">Name:</label>
+          <input formControlName="name" type="text" class="form-control" />
+
+          @if (submitted && f['name'].errors) {
+          <div class="text-danger">
+            @if (f['name'].errors['required']) {
+            <div>*name is required</div>
+            }
+          </div>
+          }
+
         </div>
-       
+
+        <div class="form-group ps-5 pe-5">
+          <label class="text-white">Email:</label>
+          <input formControlName="email" type="email" class="form-control" />
+
+          @if (submitted && f['email'].errors) {
+          <div class="text-danger">
+            @if (f['email'].errors['required']) {
+            <div>*email is required</div>
+            }
+            @if (f['email'].errors['email']) {
+            <div>*email must be valid</div>
+            }
+          </div>
+          }
+
+        </div>
+
+        <div class="form-group ps-5 pe-5">
+          <label class="text-white">Password:</label>
+          <input formControlName="password" type="text" class="form-control" />
+
+          @if (submitted && f['password'].errors) {
+          <div class="text-danger">
+            @if (f['password'].errors['required']) {
+            <div>*password is required</div>
+            }
+            @if (f['password'].errors['minlength']) {
+            <div>*password must have length 6</div>
+            }
+          </div>
+          }
+
+        </div>
+
+        <div class="form-group ps-5 pe-5">
+          <label class="text-white">Select Your City:</label>
+          <select class="form-control" [(ngModel)]="selectedCity" formControlName="city">
+            @for(city of cities; track city){
+
+            <option>{{city}}</option>
+
+            }
+
+          </select>
+        </div>
+
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+
+      </form>
+      <div class="d-flex justify-content-center mt-3">
+        <p class="text-white">If you already registered then you can <span class="fw-bold text-info"
+            style="cursor: pointer;" (click)="goToLogin()">login</span></p>
       </div>
+
     </div>
   </div>
-
+</div>
