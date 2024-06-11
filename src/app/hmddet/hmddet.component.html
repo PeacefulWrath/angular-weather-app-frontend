@@ -1,0 +1,15 @@
+<button class="btn btn-primary mt-2 mb-5 ms-5" (click)="back()">back</button>
+<div  class="d-flex flex-column">
+    <h1 class="text-center mb-5">humidity details of current selected city ==> {{selectedCity}}</h1>
+
+    @if(hmdDetails){
+        @for(det of hmdDetails; track hmdDetails){
+            <p class="text-center">{{det?.time}}</p>
+            <p class="text-center">{{det?.hmd}} (in percentage)</p>
+            <hr/>
+        
+        }
+        }
+        
+</div>
+

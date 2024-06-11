@@ -3,7 +3,7 @@ import { WeatherComponent } from './weather/weather.component';
 import { NgModule } from '@angular/core';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { TesterComponent } from './tester/tester.component';
+
 
 
 

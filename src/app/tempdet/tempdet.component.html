@@ -1,0 +1,15 @@
+<button class="btn btn-primary mt-2 mb-5 ms-5" (click)="back()">back</button>
+<div  class="d-flex flex-column">
+    <h1 class="text-center mb-5">temperature details of current selected city ==> {{selectedCity}}</h1>
+
+    @if(tempDetails){
+        @for(det of tempDetails; track tempDetails){
+            <p class="text-center">{{det?.time}}</p>
+            <p class="text-center">{{det?.temp}} (in fehrenheit)</p>
+            <hr/>
+        
+        }
+        }
+        
+</div>
+

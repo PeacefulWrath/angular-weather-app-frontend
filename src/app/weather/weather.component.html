@@ -1,6 +1,9 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+
+@if(showTempDet==="no"&&showHmdDet==="no"&&showRainDet==="no"){
 <div>
+
     <div class="d-flex justify-content-around mt-2">
         <h1>Weather Page</h1>
         <select class="w-25" style="border:2px solid #fbfbfb" [(ngModel)]="selectedCity"
@@ -12,6 +15,12 @@
 
         <mat-icon class="accountBox" (click)="showModal()">account_box</mat-icon>
     </div>
+    <div class="d-flex justify-content-center mt-5 ">
+        <button class="btn" style="background-color:red" (click)="goToTempTempDet()">Temperature Details</button>
+        <button class="btn ms-3" style="background-color: yellow;" (click)="goToTempHmdDet()">Humidity Details</button>
+        <button class="btn ms-3" style="background-color: aqua;" (click)="goToTempRainDet()">Rain Details</button>
+    </div>
+   
     <div class="d-flex justify-content-around mt-5">
         <canvas class="w-50 h-50" id="temp-canvas">{{tempChart}}</canvas>
         <canvas class="h-25 humidity_chart_width" id="humidity-canvas">{{humidityChart}}</canvas>
@@ -19,6 +28,7 @@
     <div class="d-flex justify-content-center mt-5">
         <canvas class="w-50 h-50" id="rain-canvas">{{rainChart}}</canvas>
     </div>
+    
 </div>
 
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
@@ -44,3 +54,19 @@
         </div>
     </div>
 </div>
+}
+
+@if(showTempDet==="yes"){
+<!-- <app-tempdet  (update)="goToTempDet($event)"></app-tempdet> -->
+<app-tempdet (update)="goToTempDet($event)"></app-tempdet>
+}
+
+@if(showHmdDet==="yes"){
+<!-- <app-tempdet  (update)="goToTempDet($event)"></app-tempdet> -->
+<app-hmddet (update)="goToHmdDet($event)"></app-hmddet>
+}
+
+@if(showRainDet==="yes"){
+<!-- <app-tempdet  (update)="goToTempDet($event)"></app-tempdet> -->
+<app-raindet (update)="goToHmdDet($event)"></app-raindet>
+}
